@@ -63,5 +63,23 @@ namespace CourseLibrary.API.Controllers
             var courseToReturn = _mapper.Map<CourseDto>(courseToAdd);
             return CreatedAtRoute("GetCourseForAuthor", new { authorId = authorId, courseId = courseToReturn.Id }, courseToReturn);
         }
+
+        [HttpDelete("{courseId}")]
+        public ActionResult DeleteCourseForAuthor(Guid authorId, Guid courseId)
+        {
+            if (!_courseLibraryRepository.AuthorExists(authorId))
+            {
+                return NotFound();
+            }
+
+            var courseToDelete = _courseLibraryRepository.GetCourse(authorId,courseId);
+            if (courseToDelete == null)
+            {
+                return NotFound();
+            }
+            _courseLibraryRepository.DeleteCourse(courseToDelete);
+            _courseLibraryRepository.Save();
+            return NoContent();
+        }
     }
 }
