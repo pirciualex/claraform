@@ -1,3 +1,3 @@
-# Course Library
+# Claraform
 
 Creating course libraries
